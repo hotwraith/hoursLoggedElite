@@ -33,6 +33,6 @@ In Elite: Dangerous a lot of game informations are dumped into .log files: the g
 ### Remarks
 Worth noting that: 
 - This script assumes you are playing on Windows 10/11 and that your journals are stored at the default location ("%userprofile%\Saved Games\Frontier Developments\Elite Dangerous\")
-- Journal data being stored locally means that data can be very outdated for accounts you haven't logged in a long time on the machine you're running the script on.
-- Play time is dumped in the journal when logging into the game, not when accessing main menu
-- Given the point above: you might notice differences with the play time tracked by game launchers (Steam/Epic Games Store), the launcher doesn't count as playtime for Elite
+- Journal data being stored locally means that data can be very outdated for accounts you haven't logged in a long time on the machine you're running the script from.
+- Play time is dumped in the journal when logging into the game, not when accessing main menu.
+- Given the point above: you might notice differences with the play time tracked by game launchers (Steam/Epic Games Store), the Elite launcher doesn't count as playtime for Elite
