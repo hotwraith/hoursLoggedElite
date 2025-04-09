@@ -1,0 +1,21 @@
+# All unecessary file types
+
+*.log
+*.htm
+*.sh
+*.bat
+*.json
+*.pyc
+*spec
+# Files containing potentially important data
+
+.gitignore
+
+# Folders containing useless/important data
+
+
+**/build/**
+**/dist/**
+**/output/**
+**/__pycache__/**
+**/assets/**
