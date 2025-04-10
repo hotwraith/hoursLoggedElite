@@ -28,27 +28,30 @@ def ReadJournal(keypass, CMDR, z):
         except IndexError as e:
             #Sprint(f"No data was found for this carrier ({carrierDB['shortname'][z]}). Skipping to next one (returned {type(e)})")
             exit = False
-        if(len(important) > 0):
-            jsonFile = json.dumps(important[0])
-            data = json.loads(jsonFile)
-            data = json.loads(data)
-            if(data['Name'].upper() == CMDR.upper()):
-                jsonFile = json.dumps(important[len(important)-1])
+        try:
+            if(len(important) > 0):
+                jsonFile = json.dumps(important[0])
                 data = json.loads(jsonFile)
                 data = json.loads(data)
-                data1 = json.dumps(data['Exploration'])
-                data1 = json.loads(data1)
-                time = round(int(data1['Time_Played'])/3600, 2)
-        #        print(f"{CMDR} : {time}h")
-                data = open("CMDRS.json", "r")
-                dataDict = json.load(data)
-                data.close()
-                data2 = open("CMDRS.json", "w")
-                dataDict['PLAYTIME'].append(time)
-                json.dump(dataDict, indent= 4, fp=data2)
-                
-                data2.close()
-                exit =False
+                if(data['Name'].upper() == CMDR.upper()):
+                    jsonFile = json.dumps(important[len(important)-1])
+                    data = json.loads(jsonFile)
+                    data = json.loads(data)
+                    data1 = json.dumps(data['Exploration'])
+                    data1 = json.loads(data1)
+                    time = round(int(data1['Time_Played'])/3600, 2)
+            #        print(f"{CMDR} : {time}h")
+                    data = open("CMDRS.json", "r")
+                    dataDict = json.load(data)
+                    data.close()
+                    data2 = open("CMDRS.json", "w")
+                    dataDict['PLAYTIME'].append(time)
+                    json.dump(dataDict, indent= 4, fp=data2)
+                    
+                    data2.close()
+                    exit =False
+        except json.decoder.JSONDecodeError:
+            pass
         why -= 1
 
 def sync():
@@ -78,13 +81,16 @@ def sync():
         except IndexError as e:
             #Sprint(f"No data was found for this carrier ({carrierDB['shortname'][z]}). Skipping to next one (returned {type(e)})")
             exit = False
-        if(len(important) > 0):
-            jsonFile = json.dumps(important[0])
-            data = json.loads(jsonFile)
-            data = json.loads(data)
-            addCMDR(data['Name'])
-            if(why == len(infolder)-101):
-                exit = False
+        try:
+            if(len(important) > 0):
+                jsonFile = json.dumps(important[0])
+                data = json.loads(jsonFile)
+                data = json.loads(data)
+                addCMDR(data['Name'])
+                if(why == len(infolder)-101):
+                    exit = False
+        except json.decoder.JSONDecodeError:
+            pass
         why -= 1
 
 def createDict():
