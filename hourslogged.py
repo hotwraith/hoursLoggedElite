@@ -5,7 +5,7 @@ import glob
 def ReadJournal(keypass, CMDR, z):
     global data
     local = os.environ['USERPROFILE']
-    infolder = glob.glob(f'{local}\Saved Games\Frontier Developments\Elite Dangerous\*.log') #this shit doesn't work for general file path smh
+    infolder = glob.glob(f'{local}\Saved Games\Frontier Developments\Elite Dangerous\*.log') #this thing doesn't work for general file path smh
     why = len(infolder)-1
     #for z in range(j):
     exit = True
@@ -58,7 +58,7 @@ def sync():
     global data
     carrierDB = json.load(open('CMDRS.json', 'r'))
     local = os.environ['USERPROFILE']
-    infolder = glob.glob(f'{local}\Saved Games\Frontier Developments\Elite Dangerous\*.log') #this shit doesn't work for general file path smh
+    infolder = glob.glob(f'{local}\Saved Games\Frontier Developments\Elite Dangerous\*.log') #this thing doesn't work for general file path smh
     why = len(infolder)-1
     #for z in range(j):
     exit = True
