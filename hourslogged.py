@@ -103,9 +103,9 @@ def createDict():
     out_file.close()
 
 def addCMDR(CMDR):
-    fuckingfile = open("CMDRS.json", "r")
-    appendCMDR(json.load(fuckingfile), CMDR)
-    fuckingfile.close()
+    thefile = open("CMDRS.json", "r")
+    appendCMDR(json.load(thefile), CMDR)
+    thefile.close()
 
 def appendCMDR(namedict, CMDR):
     passornot = False
