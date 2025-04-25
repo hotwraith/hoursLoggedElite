@@ -145,4 +145,6 @@ def main():
     print(f"Total time : {round(total, 2)}h")
     if(input("\nPress enter to continue...")):
         pass
-main()
+
+if __name__ == '__main__':
+    main()
