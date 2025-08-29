@@ -2,10 +2,12 @@ import os
 import json
 import glob
 
+#TODO: make this cleaner, none of this should be that long for what it does
+
 def ReadJournal(keypass, CMDR, z):
     global data
     local = os.environ['USERPROFILE']
-    infolder = glob.glob(f'{local}\Saved Games\Frontier Developments\Elite Dangerous\*.log') #this thing doesn't work for general file path smh
+    infolder = glob.glob(fr'{local}\Saved Games\Frontier Developments\Elite Dangerous\*.log') #this thing doesn't work for general file path smh
     why = len(infolder)-1
     #for z in range(j):
     exit = True
