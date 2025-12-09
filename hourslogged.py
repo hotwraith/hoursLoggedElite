@@ -129,6 +129,18 @@ def summation():
     data.close()
     return sum
 
+def sort_by_hours() -> list:
+    infoList = json.load(open('CMDRS.json', 'r'))
+    hours = list(infoList['PLAYTIME'])
+    sorted_hours =[]
+    indexes = []
+    for el in hours:
+        sorted_hours.append(el)
+    sorted_hours.sort(reverse=True)
+    for hour in sorted_hours:
+        indexes.append(hours.index(hour))
+    return indexes
+
 
 def main():
     createDict()
@@ -140,9 +152,9 @@ def main():
     out_file.close()
     out_file = open('CMDRS.json', 'r')
     infoList = json.load(out_file)
-    itemslen = len(list(infoList['NAME']))
+    indexes = sort_by_hours()
     total = summation()
-    for i in range(itemslen):
+    for i in indexes:
         print(f"{infoList['NAME'][i]} : {infoList['PLAYTIME'][i]} ({round(round(infoList['PLAYTIME'][i]/total, 3)*100, 2)}%)")
     print(f"Total time : {round(total, 2)}h")
     if(input("\nPress enter to continue...")):
