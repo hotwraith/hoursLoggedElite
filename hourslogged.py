@@ -1,6 +1,8 @@
 import os
 import json
 import glob
+import datetime
+import argparse
 
 #TODO: make this cleaner, none of this should be that long for what it does
 
@@ -56,6 +58,23 @@ def ReadJournal(keypass, CMDR, z):
             pass
         why -= 1
 
+def alt_ReadJournal(keypass, CMDR, z):
+    global data
+    local = os.environ['USERPROFILE']
+    infolder = glob.glob(fr'{local}\Saved Games\Frontier Developments\Elite Dangerous\*.log')
+    why = len(infolder)-1
+    CMDRS = json.load(open('CMDRS.json'))['NAME']
+    #for z in range(j):
+    exit = True
+    logsPerCMDR = {}
+    while exit:
+        try:
+            for el in infolder:
+                pass
+
+        except Exception:
+            pass
+
 def sync():
     global data
     carrierDB = json.load(open('CMDRS.json', 'r'))
@@ -88,28 +107,31 @@ def sync():
                 jsonFile = json.dumps(important[0])
                 data = json.loads(jsonFile)
                 data = json.loads(data)
-                addCMDR(data['Name'])
+                appendCMDR(data['Name'])
                 if(why == len(infolder)-101):
                     exit = False
         except json.decoder.JSONDecodeError:
             pass
         why -= 1
 
+'''
+STATS dict should be of form {CMDR:[[n-2, playtime in n-2], [n-1, playtime in n-1], [n, playtime in n]]}
+'''
 def createDict():
     out_file = open("CMDRS.json", "w")
     namedict = {
     "NAME": [],
-    "PLAYTIME": []
+    "PLAYTIME": [],
+    "STATS": {} 
     }
     json.dump(namedict, indent= 4, fp=out_file)
     out_file.close()
 
-def addCMDR(CMDR):
+def appendCMDR(CMDR:str):
     thefile = open("CMDRS.json", "r")
-    appendCMDR(json.load(thefile), CMDR)
+    namedict = json.load(thefile)
     thefile.close()
 
-def appendCMDR(namedict, CMDR):
     passornot = False
     for i in range(len(namedict['NAME'])):
         if(namedict['NAME'][i].upper() == CMDR.upper()):
@@ -117,6 +139,7 @@ def appendCMDR(namedict, CMDR):
     if(not passornot):
         out_file = open("CMDRS.json", "w")
         namedict['NAME'].append(CMDR)
+        namedict['STATS'].update({CMDR:[]})
         json.dump(namedict, indent= 4, fp=out_file)
         out_file.close()
 
@@ -143,22 +166,35 @@ def sort_by_hours() -> list:
 
 
 def main():
-    createDict()
-    sync()
-    out_file = open('CMDRS.json', 'r')
-    nameList = json.load(out_file)
-    for i in range(len(nameList['NAME'])):
-        ReadJournal(['FID', 'Statistics'], nameList['NAME'][i], i)
-    out_file.close()
-    out_file = open('CMDRS.json', 'r')
-    infoList = json.load(out_file)
-    indexes = sort_by_hours()
-    total = summation()
-    for i in indexes:
-        print(f"{infoList['NAME'][i]} : {infoList['PLAYTIME'][i]} ({round(round(infoList['PLAYTIME'][i]/total, 3)*100, 2)}%)")
-    print(f"Total time : {round(total, 2)}h")
-    if(input("\nPress enter to continue...")):
+    parser = argparse.ArgumentParser(description="Script that calculates the number of hours played across multiple Elite: Dangerous accounts")
+    parser.add_argument("--recap", "-r", required=False, default=False,  action='store_true', help="This argument makes the number of hours played stored by year")
+    args = parser.parse_args()
+    global isRecap
+    isRecap = args.recap
+    if not isRecap:
+        createDict()
+        sync()
+        out_file = open('CMDRS.json', 'r')
+        nameList = json.load(out_file)
+        for i in range(len(nameList['NAME'])):
+            ReadJournal(['FID', 'Statistics'], nameList['NAME'][i], i)
+        out_file.close()
+        out_file = open('CMDRS.json', 'r')
+        infoList = json.load(out_file)
+        indexes = sort_by_hours()
+        total = summation()
+        for i in indexes:
+            print(f"{infoList['NAME'][i]} : {infoList['PLAYTIME'][i]} ({round(round(infoList['PLAYTIME'][i]/total, 3)*100, 2)}%)")
+        print(f"Total time : {round(total, 2)}h")
+        if(input("\nPress enter to continue...")):
+            pass
+    else:
         pass
+
+
+
+        
+
 
 if __name__ == '__main__':
     main()
