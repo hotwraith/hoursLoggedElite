@@ -21,14 +21,15 @@ def ReadJournal(keypass, CMDR, z):
             with open(infolder[why], 'r') as file:
                 try:
                     data = file.readlines()
+                    for line in data:
+                        for phrase in keep_phrase:
+                            if phrase in line:
+                                important.append(line)
+                                break
                 except UnicodeDecodeError as e:
                     # print(f"Reader threw an {type(e)}, error in carrier DB")
                     pass
-            for line in data:
-                for phrase in keep_phrase:
-                    if phrase in line:
-                        important.append(line)
-                        break
+            
         except IndexError as e:
             #Sprint(f"No data was found for this carrier ({carrierDB['shortname'][z]}). Skipping to next one (returned {type(e)})")
             exit = False
@@ -77,6 +78,7 @@ def alt_ReadJournal(keypass, CMDR, z):
 
 def sync():
     global data
+    data = []
     carrierDB = json.load(open('CMDRS.json', 'r'))
     local = os.environ['USERPROFILE']
     infolder = glob.glob(fr'{local}\Saved Games\Frontier Developments\Elite Dangerous\*.log')
@@ -91,14 +93,14 @@ def sync():
             with open(infolder[why], 'r') as file:
                 try:
                     data = file.readlines()
-                except UnicodeDecodeError as e:
                     # print(f"Reader threw an {type(e)}, error in carrier DB")
+                    for line in data:
+                        for phrase in keep_phrase:
+                            if phrase in line:
+                                important.append(line)
+                                break
+                except UnicodeDecodeError as e:
                     pass
-            for line in data:
-                for phrase in keep_phrase:
-                    if phrase in line:
-                        important.append(line)
-                        break
         except IndexError as e:
             #Sprint(f"No data was found for this carrier ({carrierDB['shortname'][z]}). Skipping to next one (returned {type(e)})")
             exit = False
